@@ -4,6 +4,8 @@ use bevy::DefaultPlugins;
 use bevy::prelude::*;
 use bevy::render::camera::ScalingMode;
 use bevy_ggrs::{GgrsApp, GgrsPlugin, GgrsSchedule, ReadInputs};
+use bevy_rapier2d::plugin::NoUserData;
+use bevy_rapier2d::prelude::{RapierDebugRenderPlugin, RapierPhysicsPlugin};
 
 pub struct AppPlugin;
 
@@ -22,13 +24,12 @@ impl Plugin for AppPlugin {
                     ..Default::default()
                 }),
         )
-        .add_plugins(GgrsPlugin::<NetworkingConfig>::default())
+        // .add_plugins(GgrsPlugin::<NetworkingConfig>::default())
+        .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(1.))
         .insert_resource(ClearColor(Color::srgb(0., 0., 0.5)))
-        .rollback_component_with_clone::<Transform>()
-        .add_systems(Startup, (setup, setup_networking, setup_player))
-        .add_systems(Update, wait_connection)
-        .add_systems(ReadInputs, read_player_input)
-        .add_systems(GgrsSchedule, move_player);
+        // .rollback_component_with_clone::<Transform>()
+        .add_systems(Startup, (setup, setup_player))
+        .add_systems(Update, read_player_input);
     }
 }
 

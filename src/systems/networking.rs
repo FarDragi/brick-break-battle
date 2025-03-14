@@ -47,7 +47,7 @@ pub fn wait_connection(mut command: Commands, mut socket: ResMut<MatchboxSocket>
 
     let mut session_builder = SessionBuilder::<NetworkingConfig>::new()
         .with_num_players(2)
-        .with_input_delay(2);
+        .with_input_delay(1);
 
     for (i, player) in players.into_iter().enumerate() {
         let result = session_builder.add_player(player, i);

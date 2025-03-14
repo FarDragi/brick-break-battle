@@ -16,6 +16,6 @@ resolver = "2"
 bevy = { version = "0.15.3" }
 bevy_ggrs = { version = "0.17.0", features = ["wasm-bindgen"] }
 bevy_matchbox = { version = "0.11.0", features = ["ggrs"] }
-bevy_rapier2d = { version = "0.29.0", features = ["simd-stable"] }
+bevy_rapier2d = { version = "0.29.0", features = ["simd-stable", "debug-render-2d"] }
 
 serde = { version = "1.0.219", features = ["derive"] }
