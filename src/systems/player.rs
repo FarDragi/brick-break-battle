@@ -1,13 +1,10 @@
 use crate::components::bar::Bar;
 use crate::components::player::Player;
-use crate::systems::networking::{NetworkEvent, NetworkingConfig};
-use bevy::asset::io::memory::Value::Vec;
 use bevy::color::Color;
 use bevy::math::Vec2;
 use bevy::prelude::{
     ButtonInput, Commands, KeyCode, Query, Res, Sprite, Time, Transform, With, info,
 };
-use bevy_ggrs::PlayerInputs;
 use bevy_rapier2d::prelude::{Collider, KinematicCharacterController, RigidBody};
 
 pub fn setup_player(mut commands: Commands) {
@@ -36,7 +33,7 @@ pub fn setup_player(mut commands: Commands) {
     ));
 }
 
-pub fn read_player_input(
+pub fn move_player(
     button: Res<ButtonInput<KeyCode>>,
     mut players: Query<&mut KinematicCharacterController, With<Player>>,
     time: Res<Time>,
@@ -58,23 +55,5 @@ pub fn read_player_input(
         };
 
         controller.translation = Some(position + (aditional_move * time.delta_secs() * 100.));
-    }
-}
-
-pub fn move_player(
-    inputs: Res<PlayerInputs<NetworkingConfig>>,
-    mut players: Query<&mut Transform, With<Player>>,
-    time: Res<Time>,
-) {
-    for input in inputs.iter() {
-        let direction = match input.0 {
-            NetworkEvent::Left => Vec2::new(-1., 0.),
-            NetworkEvent::Right => Vec2::new(1., 0.),
-            _ => Vec2::ZERO,
-        };
-
-        for mut transform in players.iter_mut() {
-            transform.translation += (direction * time.delta().as_secs_f32() * 1000.).extend(0.)
-        }
     }
 }
